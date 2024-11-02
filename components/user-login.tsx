@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function UserLogin() {
+export default function UserLoginComponent() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -29,7 +29,7 @@ export default function UserLogin() {
         const data = await response.json();
         localStorage.setItem("token", data.access_token as string); // Store JWT token
         console.log("JWT Token:", localStorage.getItem("token"));
-        //router.push("/user-dashboard"); // Navigate to dashboard or another page
+        router.push("/user-dashboard"); // Navigate to dashboard or another page
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
