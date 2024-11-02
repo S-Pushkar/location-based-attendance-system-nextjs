@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <div className="p-8 flex flex-row justify-between">
+    <div className="p-8 flex flex-row justify-between" style={{ zIndex: 10, position: 'relative' }}>
       <h1 className="md:text-4xl sm:text-lg text-blue-800">
         <Link href="/">Location Based Attendance System</Link>
       </h1>
