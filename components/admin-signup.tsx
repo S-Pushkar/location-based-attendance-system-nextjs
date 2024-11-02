@@ -36,7 +36,7 @@ export default function AdminSignup() {
         const data = await response.json();
         localStorage.setItem("token", data.access_token as string); // Store JWT token
         console.log("JWT Token:", localStorage.getItem("token"));
-        //router.push("/admin-dashboard"); // Navigate to dashboard or another page
+        router.push("/admin-dashboard");
       }
     } catch (error) {
       setError("An error occurred. Please try again.");

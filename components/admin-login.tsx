@@ -10,7 +10,7 @@ export default function AdminLogin() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:8000/auth/login", {
+      const response = await fetch("http://localhost:8000/auth/login-admin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,8 +27,7 @@ export default function AdminLogin() {
       } else {
         const data = await response.json();
         localStorage.setItem("token", data.access_token as string); // Store JWT token
-        //router.push("/admin-dashboard"); // Navigate to attendance page
-        console.log("JWT Token:", localStorage.getItem("token"));
+        router.push("/admin-dashboard");
       }
     } catch (error) {
       setError("An error occurred. Please try again.");

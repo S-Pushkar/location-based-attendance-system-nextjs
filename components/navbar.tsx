@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
   return (
     <div className="p-8 flex flex-row justify-between" style={{ zIndex: 10, position: 'relative' }}>
       <h1 className="md:text-4xl sm:text-lg text-blue-800">
@@ -47,7 +49,10 @@ export default function Navbar() {
                   User Sign Up
                 </li>
               </Link>
-              <li className="px-4 py-2 text-left hover:bg-gray-100 cursor-pointer rounded-lg text-red-500">
+              <li className="px-4 py-2 text-left hover:bg-gray-100 cursor-pointer rounded-lg text-red-500" onClick={() => {
+                localStorage.removeItem("token");
+                router.push("/");
+              }}>
                 Log Out
               </li>
             </ul>
