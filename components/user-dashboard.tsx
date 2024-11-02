@@ -9,7 +9,8 @@ export default function UserDashboardComponent() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
+	
+	
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8000/check-attendance", {
@@ -84,6 +85,16 @@ export default function UserDashboardComponent() {
 
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, []);
+  
+  const showSessions = async () => {
+	console.log("sessions")
+	router.push("/user-active");
+	}
+	
+	const showMySessions = async () => {
+	console.log("My sessions")
+	router.push("/user-sessions");
+	}
 	
   return (
     <div style={{ textAlign: "center", padding: "20px", fontFamily: "Arial, sans-serif" }}>
@@ -119,12 +130,14 @@ export default function UserDashboardComponent() {
 	  <div className="flex justify-center space-x-4 mt-6">
   <button
     className="w-1/2 py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+	onClick={showSessions}
   >
     Active Sessions
   </button>
 
   <button
     className="w-1/2 py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+	onClick={showMySessions}
   >
     My Sessions
   </button>
