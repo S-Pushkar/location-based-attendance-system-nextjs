@@ -28,7 +28,7 @@ export default function AdminLogin() {
         const data = await response.json();
         localStorage.setItem("token", data.access_token as string); // Store JWT token
         //router.push("/admin-dashboard"); // Navigate to attendance page
-		console.log("JWT Token:", localStorage.getItem("token"));
+        console.log("JWT Token:", localStorage.getItem("token"));
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
@@ -60,9 +60,7 @@ export default function AdminLogin() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {error && (
-            <p className="text-red-500 text-center text-sm">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-center text-sm">{error}</p>}
 
           <button
             className="w-1/2 mx-auto block py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

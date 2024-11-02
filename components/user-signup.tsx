@@ -14,19 +14,22 @@ export default function UserSignup() {
 
   const handleSignup = async () => {
     try {
-      const response = await fetch("http://localhost:8000/auth/register-attendee", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email.trim(),
-          fname: fname.trim(),
-          lname: lname.trim(),
-          address: address.trim(),
-          password: password.trim(),
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8000/auth/register-attendee",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email.trim(),
+            fname: fname.trim(),
+            lname: lname.trim(),
+            address: address.trim(),
+            password: password.trim(),
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -91,9 +94,7 @@ export default function UserSignup() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {error && (
-            <p className="text-red-500 text-center text-sm">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-center text-sm">{error}</p>}
 
           <button
             className="w-1/2 mx-auto block py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

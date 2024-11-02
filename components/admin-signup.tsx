@@ -13,18 +13,21 @@ export default function AdminSignup() {
 
   const handleSignup = async () => {
     try {
-      const response = await fetch("http://localhost:8000/auth/register-admin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email.trim(),
-          fname: fname.trim(),
-          lname: lname.trim(),
-          password: password.trim(),
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8000/auth/register-admin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email.trim(),
+            fname: fname.trim(),
+            lname: lname.trim(),
+            password: password.trim(),
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -81,9 +84,7 @@ export default function AdminSignup() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {error && (
-            <p className="text-red-500 text-center text-sm">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-center text-sm">{error}</p>}
 
           <button
             className="w-1/2 mx-auto block py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
