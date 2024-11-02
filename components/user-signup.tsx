@@ -10,7 +10,7 @@ export default function UserSignupComponent() {
   const [password, setPassword] = useState("");
   return (
     <div className="w-full flex items-center justify-center p-4">
-      <div className="w-full max-w-sm bg-slate-800 rounded-lg shadow-lg p-6 space-y-4">
+      <div className="w-full max-w-sm bg-slate-800 rounded-lg p-6 space-y-4 shadow-[0px_0px_25px_#e6e6e6]">
         <h1 className="text-2xl sm:text-3xl text-white font-bold text-center">
           User Signup
         </h1>

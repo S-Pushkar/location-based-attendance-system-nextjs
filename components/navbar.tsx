@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <div className="p-8 flex flex-row justify-between" style={{ zIndex: 10, position: 'relative' }}>
       <h1 className="md:text-4xl sm:text-lg text-blue-800">
-        <Link href="/">Location Based Attendance System</Link>
+        <Link href="/">Attendance System</Link>
       </h1>
       <button
         className="p-2 bg-blue-800 text-white rounded-lg"
