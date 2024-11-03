@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 export default function AdminLogin() {
   const router = useRouter();
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     const token = localStorage.getItem("token");
     if (token) {
       router.push("/admin-dashboard");
@@ -34,7 +37,9 @@ export default function AdminLogin() {
       } else {
         const data = await response.json();
         localStorage.setItem("token", data.access_token as string); // Store JWT token
+        localStorage.setItem("role", "admin");
         router.push("/admin-dashboard");
+        window.location.reload();
       }
     } catch (error) {
       setError("An error occurred. Please try again.");

@@ -10,6 +10,9 @@ export default function UserActiveComponent() {
 
   // Fetch active sessions on page load
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     const fetchActiveSessions = async () => {
       try {
         const response = await axios.post("http://localhost:8000/active-sessions", {

@@ -4,13 +4,16 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function UserDashboardComponent() {
-  const [attendanceData, setAttendanceData] = useState([]);
+  const [attendanceData, setAttendanceData] = useState<{ session: string; present: string }[]>([]);
   const router = useRouter();
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    
     const token = localStorage.getItem("token");
-	
-	
+
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8000/check-attendance", {

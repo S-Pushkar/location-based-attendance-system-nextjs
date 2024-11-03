@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 export default function UserLoginComponent() {
   const router = useRouter();
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     const token = localStorage.getItem("token");
     if (token) {
       router.push("/admin-dashboard");
@@ -34,8 +37,9 @@ export default function UserLoginComponent() {
       } else {
         const data = await response.json();
         localStorage.setItem("token", data.access_token as string); // Store JWT token
-        console.log("JWT Token:", localStorage.getItem("token"));
+        localStorage.setItem("role", "attendee");
         router.push("/user-dashboard"); // Navigate to dashboard or another page
+        window.location.reload();
       }
     } catch (error) {
       setError("An error occurred. Please try again.");

@@ -9,6 +9,9 @@ export default function UserSessionsComponent() {
   const router = useRouter();
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     const fetchSessions = async () => {
       try {
         const response = await axios.post('http://localhost:8000/my-sessions', {

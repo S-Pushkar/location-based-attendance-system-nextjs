@@ -7,6 +7,9 @@ export default function AdminDashboardComponent() {
   const [sessions, setSessions] = useState<string[][]>([]);
   const router = useRouter();
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     const token = localStorage.getItem("token");
     if (!token) {
       router.push("/admin-login");
@@ -51,7 +54,12 @@ export default function AdminDashboardComponent() {
             <p className="text-gray-400">To: {session[2]}</p>
           </div>
           <div>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+              onClick={() => {
+                router.push(`/admin-dashboard/${session[0]}`);
+              }}
+            >
               View
             </button>
           </div>
