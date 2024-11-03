@@ -1,16 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function UserSignupComponent() {
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/admin-dashboard");
+    }
+  }, []);
   const [email, setEmail] = useState<string>("");
   const [fname, setFname] = useState<string>("");
   const [lname, setLname] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const router = useRouter();
 
   const handleSignup = async () => {
     try {
@@ -52,7 +58,7 @@ export default function UserSignupComponent() {
           User Signup
         </h1>
 
-        <div className="space-y-3">
+        <form className="space-y-3" onSubmit={handleSignup}>
           <input
             className="w-3/4 mx-auto block px-3 py-1.5 rounded-lg text-black text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Email"
@@ -98,11 +104,11 @@ export default function UserSignupComponent() {
 
           <button
             className="w-1/2 mx-auto block py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            onClick={handleSignup}
+            type="submit"
           >
             Sign Up
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

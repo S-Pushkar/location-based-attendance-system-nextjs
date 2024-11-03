@@ -1,13 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function UserLoginComponent() {
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/admin-dashboard");
+    }
+  }, []);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const router = useRouter();
 
   const handleLogin = async () => {
     try {
@@ -43,7 +49,7 @@ export default function UserLoginComponent() {
           User Login
         </h1>
 
-        <div className="space-y-3">
+        <form className="space-y-3" onSubmit={handleLogin}>
           <input
             className="w-3/4 mx-auto block px-3 py-1.5 rounded-lg text-black text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Email"
@@ -65,11 +71,11 @@ export default function UserLoginComponent() {
 
           <button
             className="w-1/2 mx-auto block py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            onClick={handleLogin}
+            type="submit"
           >
             Log In
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

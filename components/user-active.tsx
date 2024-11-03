@@ -24,7 +24,7 @@ export default function UserActiveComponent() {
   }, []);
 
   // Handle row click to join session
-  const handleJoinSession = async (sessionId) => {
+  const handleJoinSession = async (sessionId: string) => {
     try {
       await axios.post("http://localhost:8000/join-session", {
         tok: localStorage.getItem("token"),
