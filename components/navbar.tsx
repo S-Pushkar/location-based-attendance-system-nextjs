@@ -18,7 +18,7 @@ export default function Navbar() {
     if (token) {
       setIsSignedIn(true);
     }
-    if (role === "user") {
+    if (role === "attendee") {
       setIsUser(true);
     } else {
       setIsUser(false);

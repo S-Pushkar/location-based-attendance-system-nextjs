@@ -11,7 +11,7 @@ export default function UserLoginComponent() {
     }
     const token = localStorage.getItem("token");
     if (token) {
-      router.push("/admin-dashboard");
+      router.push("/user-dashboard");
     }
   }, []);
   const [email, setEmail] = useState<string>("");
