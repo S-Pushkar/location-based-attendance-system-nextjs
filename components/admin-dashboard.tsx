@@ -11,8 +11,13 @@ export default function AdminDashboardComponent() {
       return;
     }
     const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
     if (!token) {
       router.push("/admin-login");
+      return;
+    }
+    if (role !== "admin") {
+      router.back();
       return;
     }
     async function fetchSessions() {

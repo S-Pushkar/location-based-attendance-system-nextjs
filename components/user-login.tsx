@@ -18,7 +18,8 @@ export default function UserLoginComponent() {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       const response = await fetch("http://localhost:8000/auth/login-attendee", {
         method: "POST",

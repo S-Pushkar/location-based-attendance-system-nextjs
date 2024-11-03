@@ -12,6 +12,16 @@ export default function UserSessionsComponent() {
     if (typeof window === "undefined") {
       return;
     }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/user-login");
+      return;
+    }
+    const role = localStorage.getItem("role");
+    if (role !== "attendee") {
+      router.back();
+      return;
+    }
     const fetchSessions = async () => {
       try {
         const response = await axios.post('http://localhost:8000/my-sessions', {

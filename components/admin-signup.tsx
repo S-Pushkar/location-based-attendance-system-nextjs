@@ -20,7 +20,8 @@ export default function AdminSignup() {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleSignup = async () => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       const response = await fetch(
         "http://localhost:8000/auth/register-admin",

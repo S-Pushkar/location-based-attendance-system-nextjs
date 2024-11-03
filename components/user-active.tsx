@@ -13,10 +13,20 @@ export default function UserActiveComponent() {
     if (typeof window === "undefined") {
       return;
     }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/user-login");
+      return;
+    }
+    const role = localStorage.getItem("role");
+    if (role !== "attendee") {
+      router.back();
+      return;
+    }
     const fetchActiveSessions = async () => {
       try {
         const response = await axios.post("http://localhost:8000/active-sessions", {
-          tok: localStorage.getItem("token"),
+          tok: token,
         });
         setSessions(response.data.sessions);
       } catch (error) {

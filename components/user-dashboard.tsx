@@ -13,7 +13,15 @@ export default function UserDashboardComponent() {
     }
     
     const token = localStorage.getItem("token");
-
+    if (!token) {
+      router.push("/user-login");
+      return;
+    }
+    const role = localStorage.getItem("role");
+    if (role !== "attendee") {
+      router.back();
+      return;
+    }
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8000/check-attendance", {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type attendee = {
@@ -10,6 +10,22 @@ type attendee = {
 };
 
 export default function ViewSessionAdminComponent() {
+  const router = useRouter();
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/admin-login");
+      return;
+    }
+    const role = localStorage.getItem("role");
+    if (role !== "admin") {
+      router.back();
+      return;
+    }
+  }, []);
   const params = useParams<{ id: string }>();
   const sessionId = params.id;
   const [session, setSession] = useState<{
