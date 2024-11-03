@@ -50,8 +50,28 @@ export default function AdminDashboardComponent() {
         >
           <div>
             <h2 className="text-xl text-white">Session ID: {session[0]}</h2>
-            <p className="text-gray-400">From: {session[1]}</p>
-            <p className="text-gray-400">To: {session[2]}</p>
+            <p className="text-gray-400">
+              From:{" "}
+              {new Intl.DateTimeFormat("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+              }).format(new Date(session[1]))}
+            </p>
+            <p className="text-gray-400">
+              To:{" "}
+              {new Intl.DateTimeFormat("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+              }).format(new Date(session[2]))}
+            </p>
           </div>
           <div>
             <button

@@ -55,7 +55,7 @@ export default function AdminSignup() {
 
   return (
     <div className="w-full flex items-center justify-center p-4">
-      <div className="w-full max-w-sm bg-slate-800 rounded-lg shadow-lg p-6 space-y-4">
+      <div className="w-full max-w-sm bg-slate-800 rounded-lg p-6 space-y-4 shadow-[0px_0px_20px_4px_gray]">
         <h1 className="text-2xl sm:text-3xl text-white font-bold text-center">
           Admin Signup
         </h1>

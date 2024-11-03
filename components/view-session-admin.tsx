@@ -44,6 +44,22 @@ export default function ViewSessionAdminComponent() {
           throw new Error("Failed to fetch session");
         }
         const data = await response.json();
+        data.starttime = new Intl.DateTimeFormat("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        }).format(new Date(data.starttime));
+        data.endtime = new Intl.DateTimeFormat("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        }).format(new Date(data.endtime));
         setSession(data);
         console.log(data);
       } catch (error) {
@@ -92,7 +108,9 @@ export default function ViewSessionAdminComponent() {
               <td className="text-center border border-gray-400 p-2">
                 {attendee.fname}&nbsp;{attendee.lname}
               </td>
-              <td className="text-center border border-gray-400 p-2">{attendee.email}</td>
+              <td className="text-center border border-gray-400 p-2">
+                {attendee.email}
+              </td>
             </tr>
           ))}
         </tbody>
