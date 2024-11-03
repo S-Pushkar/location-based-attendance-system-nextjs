@@ -3,6 +3,12 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+type attendee = {
+  email?: string;
+  fname?: string;
+  lname?: string;
+};
+
 export default function ViewSessionAdminComponent() {
   const params = useParams<{ id: string }>();
   const sessionId = params.id;
@@ -12,6 +18,7 @@ export default function ViewSessionAdminComponent() {
     address?: string;
     latitude?: string;
     longitude?: string;
+    attendees?: attendee[];
   }>({});
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -47,16 +54,16 @@ export default function ViewSessionAdminComponent() {
   }, [sessionId]);
   return (
     <div className="mx-8">
-      <h1 className="text-2xl sm:text-3xl">
-        Session {sessionId}
-      </h1>
+      <h1 className="text-2xl sm:text-3xl">Session {sessionId}</h1>
       {session.starttime ? (
         <h2 className="text-xl text-gray-400">
           <span className="text-gray-300">From:</span> {session.starttime}
         </h2>
       ) : null}
       {session.endtime ? (
-        <h2 className="text-xl text-gray-400"><span className="text-gray-300">To:</span> {session.endtime}</h2>
+        <h2 className="text-xl text-gray-400">
+          <span className="text-gray-300">To:</span> {session.endtime}
+        </h2>
       ) : null}
       {session.address ? (
         <span className="text-xl text-gray-400">
@@ -71,6 +78,25 @@ export default function ViewSessionAdminComponent() {
           (View on map)
         </a>
       ) : null}
+      <h2 className="text-xl sm:text-2xl">Attendees:</h2>
+      <table className="w-full border-2 border-gray-400 mt-2 mb-14">
+        <thead>
+          <tr>
+            <th className="text-center border border-gray-400 p-2">Name</th>
+            <th className="text-center border border-gray-400 p-2">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {session.attendees?.map((attendee, index) => (
+            <tr key={index} className={index % 2 === 0 ? "bg-gray-700" : ""}>
+              <td className="text-center border border-gray-400 p-2">
+                {attendee.fname}&nbsp;{attendee.lname}
+              </td>
+              <td className="text-center border border-gray-400 p-2">{attendee.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
