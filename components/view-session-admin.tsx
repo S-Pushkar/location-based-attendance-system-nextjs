@@ -12,7 +12,7 @@ type attendee = {
 export default function ViewSessionAdminComponent() {
   const router = useRouter();
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !localStorage) {
       return;
     }
     const token = localStorage.getItem("token");
@@ -37,7 +37,7 @@ export default function ViewSessionAdminComponent() {
     attendees?: attendee[];
   }>({});
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !localStorage) {
       return;
     }
     const token = localStorage.getItem("token");
@@ -57,9 +57,46 @@ export default function ViewSessionAdminComponent() {
           }
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch session");
+          return;
         }
         const data = await response.json();
+        // data.attendees = [
+        //   {
+        //     email: "bdhbhdbhdbvk",
+        //     fname: "dvhdbv",
+        //     lname: "dvhdbv",
+        //   },
+        //   {
+        //     email: "bdhbhdbhdbvk",
+        //     fname: "dvhdbv",
+        //     lname: "dvhdbv",
+        //   },
+        //   {
+        //     email: "bdhbhdbhdbvk",
+        //     fname: "dvhdbv",
+        //     lname: "dvhdbv",
+        //   },
+        //   {
+        //     email: "bdhbhdbhdbvk",
+        //     fname: "dvhdbv",
+        //     lname: "dvhdbv",
+        //   },
+        //   {
+        //     email: "bdhbhdbhdbvk",
+        //     fname: "dvhdbv",
+        //     lname: "dvhdbv",
+        //   },
+        //   {
+        //     email: "bdhbhdbhdbvk",
+        //     fname: "dvhdbv",
+        //     lname: "dvhdbv",
+        //   },
+        //   {
+        //     email: "bdhbhdbhdbvk",
+        //     fname: "dvhdbv",
+        //     lname: "dvhdbv",
+        //   },
+        // ]
         data.starttime = new Intl.DateTimeFormat("en-US", {
           year: "numeric",
           month: "long",
@@ -86,19 +123,19 @@ export default function ViewSessionAdminComponent() {
   }, [sessionId]);
   return (
     <div className="mx-8">
-      <h1 className="text-2xl sm:text-3xl">Session {sessionId}</h1>
+      <h1 className="text-2xl sm:text-3xl my-2">Session {sessionId}</h1>
       {session.starttime ? (
-        <h2 className="text-xl text-gray-400">
+        <h2 className="md:text-xl sm:text-lg text-gray-400 my-2">
           <span className="text-gray-300">From:</span> {session.starttime}
         </h2>
       ) : null}
       {session.endtime ? (
-        <h2 className="text-xl text-gray-400">
+        <h2 className="md:text-xl sm:text-lg text-gray-400 my-2">
           <span className="text-gray-300">To:</span> {session.endtime}
         </h2>
       ) : null}
       {session.address ? (
-        <span className="text-xl text-gray-400">
+        <span className="md:text-xl sm:text-lg text-gray-400 my-2">
           <span className="text-gray-300">Address:</span> {session.address}
         </span>
       ) : null}
@@ -110,17 +147,17 @@ export default function ViewSessionAdminComponent() {
           (View on map)
         </a>
       ) : null}
-      <h2 className="text-xl sm:text-2xl">Attendees:</h2>
+      <h2 className="text-xl sm:text-2xl my-2">Attendees:</h2>
       <table className="w-full border-2 border-gray-400 mt-2 mb-14">
         <thead>
           <tr>
-            <th className="text-center border border-gray-400 p-2">Name</th>
-            <th className="text-center border border-gray-400 p-2">Email</th>
+            <th className="text-center border border-gray-400 bg-slate-600 p-2">Name</th>
+            <th className="text-center border border-gray-400 bg-slate-600 p-2">Email</th>
           </tr>
         </thead>
         <tbody>
           {session.attendees?.map((attendee, index) => (
-            <tr key={index} className={index % 2 === 0 ? "bg-gray-700" : ""}>
+            <tr key={index} className={index % 2 === 1 ? "bg-gray-800" : ""}>
               <td className="text-center border border-gray-400 p-2">
                 {attendee.fname}&nbsp;{attendee.lname}
               </td>

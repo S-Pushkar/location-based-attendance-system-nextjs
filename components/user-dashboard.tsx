@@ -8,7 +8,7 @@ export default function UserDashboardComponent() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !localStorage) {
       return;
     }
     

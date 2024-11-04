@@ -10,7 +10,7 @@ export default function UserActiveComponent() {
 
   // Fetch active sessions on page load
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !localStorage) {
       return;
     }
     const token = localStorage.getItem("token");

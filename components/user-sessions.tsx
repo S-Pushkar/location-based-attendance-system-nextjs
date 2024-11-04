@@ -9,7 +9,7 @@ export default function UserSessionsComponent() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !localStorage) {
       return;
     }
     const token = localStorage.getItem("token");

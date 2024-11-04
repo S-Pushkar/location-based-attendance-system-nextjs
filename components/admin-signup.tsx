@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 export default function AdminSignup() {
   const router = useRouter();
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !localStorage) {
       return;
     }
     const token = localStorage.getItem("token");

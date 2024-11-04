@@ -7,7 +7,7 @@ export default function AdminDashboardComponent() {
   const [sessions, setSessions] = useState<string[][]>([]);
   const router = useRouter();
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !localStorage) {
       return;
     }
     const token = localStorage.getItem("token");
@@ -47,11 +47,18 @@ export default function AdminDashboardComponent() {
   }, []);
   return (
     <div>
-      <h1 className="text-2xl sm:text-3xl mx-8">Dashboard</h1>
+      <h1 className="text-2xl sm:text-3xl mx-8 font-bold text-center">
+        Dashboard
+      </h1>
+      <div className="flex flex-row justify-end">
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mx-8 my-4 active:bg-blue-700" onClick={() => router.push("/create-session")}>
+          New Session
+        </button>
+      </div>
       {sessions.map((session, index) => (
         <div
           key={index}
-          className="flex items-center justify-between p-4 mx-8 bg-slate-800 rounded-lg shadow-lg my-4"
+          className="flex items-center justify-between p-4 mx-8 bg-slate-700 rounded-lg my-4 shadow-[4px_4px_4px_0px_rgb(0,0,0)]"
         >
           <div>
             <h2 className="text-xl text-white">Session ID: {session[0]}</h2>

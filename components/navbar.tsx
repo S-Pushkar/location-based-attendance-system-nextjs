@@ -10,7 +10,7 @@ export default function Navbar() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isUser, setIsUser] = useState(false);
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !localStorage) {
       return;
     }
     const token = localStorage.getItem("token");
