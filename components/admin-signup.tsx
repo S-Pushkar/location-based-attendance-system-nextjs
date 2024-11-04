@@ -67,6 +67,7 @@ export default function AdminSignup() {
             placeholder="Email"
             type="email"
             autoFocus
+            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -75,6 +76,7 @@ export default function AdminSignup() {
             className="w-3/4 mx-auto block px-3 py-1.5 rounded-lg text-black text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="First Name"
             type="text"
+            required
             value={fname}
             onChange={(e) => setFname(e.target.value)}
           />
@@ -83,6 +85,7 @@ export default function AdminSignup() {
             className="w-3/4 mx-auto block px-3 py-1.5 rounded-lg text-black text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Last Name"
             type="text"
+            required
             value={lname}
             onChange={(e) => setLname(e.target.value)}
           />
@@ -91,6 +94,7 @@ export default function AdminSignup() {
             className="w-3/4 mx-auto block px-3 py-1.5 rounded-lg text-black text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Password"
             type="password"
+            required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

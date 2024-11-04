@@ -60,6 +60,7 @@ export default function UserLoginComponent() {
             placeholder="Email"
             type="email"
             autoFocus
+            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -68,6 +69,7 @@ export default function UserLoginComponent() {
             className="w-3/4 mx-auto block px-3 py-1.5 rounded-lg text-black text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Password"
             type="password"
+            required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
