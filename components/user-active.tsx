@@ -44,6 +44,7 @@ export default function UserActiveComponent() {
         sessionid: sessionId,
       });
       alert(`Joined session with ID ${sessionId}`);
+	  window.location.reload();
     } catch (error) {
       console.error("Error joining session:", error);
     }
