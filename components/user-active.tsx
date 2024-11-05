@@ -25,9 +25,12 @@ export default function UserActiveComponent() {
     }
     const fetchActiveSessions = async () => {
       try {
-        const response = await axios.post("http://localhost:8000/active-sessions", {
-          tok: token,
-        });
+        const response = await axios.post(
+          "http://localhost:8000/active-sessions",
+          {
+            tok: token,
+          }
+        );
         setSessions(response.data.sessions);
       } catch (error) {
         console.error("Error fetching sessions:", error);
@@ -38,28 +41,55 @@ export default function UserActiveComponent() {
 
   // Handle row click to join session
   const handleJoinSession = async (sessionId: string) => {
+    const position: GeolocationPosition = await new Promise(
+      (resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+        });
+      }
+    );
+
+    const latitude = position.coords.latitude.toString();
+    const longitude = position.coords.longitude.toString();
+
     try {
-      await axios.post("http://localhost:8000/join-session", {
-        tok: localStorage.getItem("token"),
-        sessionid: sessionId,
+      const response = await fetch("http://localhost:8000/join-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tok: localStorage.getItem("token"),
+          sessionid: sessionId,
+          latitude: parseFloat(latitude),
+          longitude: parseFloat(longitude),
+        }),
       });
+      if (response.status === 400) {
+        alert("You are not located within the session area");
+        return;
+      }
+      if (response.status !== 200) {
+        alert("Failed to join session");
+        return;
+      }
       alert(`Joined session with ID ${sessionId}`);
-	  window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.error("Error joining session:", error);
     }
   };
-  
+
   const toDashboard = async () => {
-	console.log("sessions")
-	router.push("/user-dashboard");
-	}
+    console.log("sessions");
+    router.push("/user-dashboard");
+  };
 
   return (
     <div className="mt-6">
       <h2 className="text-xl font-bold text-center mb-4">Active Sessions</h2>
       <table className="min-w-full bg-white border border-gray-300 rounded-md shadow-md">
-        <thead style={{color: "#000000" }}>
+        <thead style={{ color: "#000000" }}>
           <tr>
             <th className="py-2 px-4 border-b text-left">Session ID</th>
             <th className="py-2 px-4 border-b text-left">Start Time</th>
@@ -67,7 +97,7 @@ export default function UserActiveComponent() {
             <th className="py-2 px-4 border-b text-left">Admin ID</th>
           </tr>
         </thead>
-        <tbody style={{color: "#000000" }}>
+        <tbody style={{ color: "#000000" }}>
           {sessions.map((session, index) => (
             <tr
               key={index}
@@ -75,22 +105,27 @@ export default function UserActiveComponent() {
               className="cursor-pointer hover:bg-blue-100"
             >
               <td className="py-2 px-4 border-b">{session[0]}</td>
-              <td className="py-2 px-4 border-b">{new Date(session[1]).toLocaleString()}</td>
-              <td className="py-2 px-4 border-b">{new Date(session[2]).toLocaleString()}</td>
+              <td className="py-2 px-4 border-b">
+                {new Date(session[1]).toLocaleString()}
+              </td>
+              <td className="py-2 px-4 border-b">
+                {new Date(session[2]).toLocaleString()}
+              </td>
               <td className="py-2 px-4 border-b">{session[3]}</td>
             </tr>
           ))}
         </tbody>
       </table>
-	  <div className="flex justify-center pt-10"> {/* Adds padding-top and centers the button */}
-  <button
-    className="w-1/2 py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-    onClick={toDashboard}
-  >
-    Dashboard
-  </button>
-</div>
-
+      <div className="flex justify-center pt-10">
+        {" "}
+        {/* Adds padding-top and centers the button */}
+        <button
+          className="w-1/2 py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          onClick={toDashboard}
+        >
+          Dashboard
+        </button>
+      </div>
     </div>
   );
 }

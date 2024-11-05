@@ -62,7 +62,7 @@ export default function CreateSessionComponent() {
               longitude: parseFloat(longitude),
               latitude: parseFloat(latitude),
             },
-          ]
+          ],
         }),
         headers: {
           "Content-Type": "application/json",
@@ -78,24 +78,21 @@ export default function CreateSessionComponent() {
     }
   }
 
-  const handleUseCurrentLocationChange = (
+  const handleUseCurrentLocationChange = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const isUsingCurrentLocation = e.target.value === "current";
     setUseCurrentLocation(isUsingCurrentLocation);
     if (isUsingCurrentLocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLatitude(position.coords.latitude.toString());
-          setLongitude(position.coords.longitude.toString());
-          setError("");
-        },
-        (err) => {
-          setError(
-            "Unable to fetch current location. Please allow location access or use manual input."
-          );
+      const position: GeolocationPosition = await new Promise(
+        (resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+          });
         }
       );
+      setLatitude(position.coords.latitude.toString());
+      setLongitude(position.coords.longitude.toString());
     } else {
       setLatitude("");
       setLongitude("");
