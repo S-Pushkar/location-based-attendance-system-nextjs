@@ -106,10 +106,24 @@ export default function UserActiveComponent() {
             >
               <td className="py-2 px-4 border-b">{session[0]}</td>
               <td className="py-2 px-4 border-b">
-                {new Date(session[1]).toLocaleString()}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                }).format(new Date(session[1]))}
               </td>
               <td className="py-2 px-4 border-b">
-                {new Date(session[2]).toLocaleString()}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                }).format(new Date(session[2]))}
               </td>
               <td className="py-2 px-4 border-b">{session[3]}</td>
             </tr>
