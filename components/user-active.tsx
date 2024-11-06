@@ -119,12 +119,12 @@ export default function UserActiveComponent() {
       <div className="flex justify-center pt-10">
         {" "}
         {/* Adds padding-top and centers the button */}
-        <button
+        {/* <button
           className="w-1/2 py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           onClick={toDashboard}
         >
           Dashboard
-        </button>
+        </button> */}
       </div>
     </div>
   );

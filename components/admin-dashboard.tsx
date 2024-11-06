@@ -47,8 +47,8 @@ export default function AdminDashboardComponent() {
   }, []);
   return (
     <div>
-      <h1 className="text-2xl sm:text-3xl mx-8 font-bold text-center">
-        Dashboard
+      <h1 style={{ fontSize: "2rem", color: "#4A90E2", marginBottom: "20px" }} className="text-center">
+        ADMIN DASHBOARD
       </h1>
       <div className="flex flex-row justify-end">
         <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mx-8 my-4 active:bg-blue-700" onClick={() => router.push("/create-session")}>
