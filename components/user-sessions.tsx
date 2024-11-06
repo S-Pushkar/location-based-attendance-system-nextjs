@@ -55,30 +55,29 @@ export default function UserSessionsComponent() {
       </div>
 
       <table
-        className="min-w-full divide-y divide-gray-200"
-        style={{ color: "#000000" }}
+        className="min-w-full bg-white border border-gray-300 rounded-md shadow-md"
       >
-        <thead className="bg-gray-50">
+        <thead style={{ color: "#000000" }}>
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="py-2 px-4 border-b text-left">
               Session ID
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="py-2 px-4 border-b text-left">
               Start Time
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="py-2 px-4 border-b text-left">
               End Time
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="py-2 px-4 border-b text-left">
               Admin ID
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody style={{ color: "#000000" }}>
           {sessions.map((session, index) => (
-            <tr key={index}>
-              <td className="px-6 py-4 whitespace-nowrap">{session[0]}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
+            <tr key={index} className="cursor-pointer hover:bg-blue-100">
+              <td className="py-2 px-4 border-b">{session[0]}</td>
+              <td className="py-2 px-4 border-b">
                 {new Intl.DateTimeFormat("en-US", {
                   year: "numeric",
                   month: "long",
@@ -88,7 +87,7 @@ export default function UserSessionsComponent() {
                   second: "numeric",
                 }).format(new Date(session[1]))}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="py-2 px-4 border-b">
                 {new Intl.DateTimeFormat("en-US", {
                   year: "numeric",
                   month: "long",
@@ -98,7 +97,7 @@ export default function UserSessionsComponent() {
                   second: "numeric",
                 }).format(new Date(session[2]))}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">{session[3]}</td>
+              <td className="py-2 px-4 border-b">{session[3]}</td>
             </tr>
           ))}
         </tbody>

@@ -87,7 +87,7 @@ export default function UserActiveComponent() {
 
   return (
     <div className="mt-6">
-      <h2 className="text-xl font-bold text-center mb-4">Active Sessions</h2>
+      <h1 className="text-2xl font-bold text-center text-blue-200 mb-6">Active Sessions</h1>
       <table className="min-w-full bg-white border border-gray-300 rounded-md shadow-md">
         <thead style={{ color: "#000000" }}>
           <tr>

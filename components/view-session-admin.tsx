@@ -148,7 +148,7 @@ export default function ViewSessionAdminComponent() {
         </a>
       ) : null}
       <h2 className="text-xl sm:text-2xl my-2">Attendees:</h2>
-      <table className="w-full border-2 border-gray-400 mt-2 mb-14">
+      {/* <table className="w-full border-2 border-gray-400 mt-2 mb-14">
         <thead>
           <tr>
             <th className="text-center border border-gray-400 bg-slate-600 p-2">Name</th>
@@ -163,6 +163,26 @@ export default function ViewSessionAdminComponent() {
               </td>
               <td className="text-center border border-gray-400 p-2">
                 {attendee.email}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table> */}
+      <table className="min-w-full bg-white border border-gray-300 rounded-md shadow-md">
+        <thead style={{ color: "#000000" }}>
+          <tr>
+            <th className="py-2 px-4 border-b text-center">Name</th>
+            <th className="py-2 px-4 border-b text-center">Email</th>
+          </tr>
+        </thead>
+        <tbody style={{ color: "#000000" }}>
+          {session.attendees?.map((session, index) => (
+            <tr key={index} className="cursor-pointer hover:bg-blue-100">
+              <td className="py-2 px-4 border-b text-center">
+                {session.fname}&nbsp;{session.lname}
+              </td>
+              <td className="py-2 px-4 border-b text-center">
+                {session.email}
               </td>
             </tr>
           ))}
