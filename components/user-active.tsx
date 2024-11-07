@@ -80,65 +80,79 @@ export default function UserActiveComponent() {
     }
   };
 
-  const toDashboard = async () => {
-    console.log("sessions");
-    router.push("/user-dashboard");
-  };
-
   return (
-    <div className="mt-6">
-      <h1 className="text-2xl font-bold text-center text-blue-200 mb-6">Active Sessions</h1>
-      <table className="min-w-full bg-white border border-gray-300 rounded-md shadow-md">
-        <thead style={{ color: "#000000" }}>
-          <tr>
-            <th className="py-2 px-4 border-b text-left">Session ID</th>
-            <th className="py-2 px-4 border-b text-left">Start Time</th>
-            <th className="py-2 px-4 border-b text-left">End Time</th>
-            <th className="py-2 px-4 border-b text-left">Admin ID</th>
-          </tr>
-        </thead>
-        <tbody style={{ color: "#000000" }}>
-          {sessions.map((session, index) => (
-            <tr
-              key={index}
-              onClick={() => handleJoinSession(session[0])}
-              className="cursor-pointer hover:bg-blue-100"
-            >
-              <td className="py-2 px-4 border-b">{session[0]}</td>
-              <td className="py-2 px-4 border-b">
-                {new Intl.DateTimeFormat("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "numeric",
-                  minute: "numeric",
-                  second: "numeric",
-                }).format(new Date(session[1]))}
-              </td>
-              <td className="py-2 px-4 border-b">
-                {new Intl.DateTimeFormat("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "numeric",
-                  minute: "numeric",
-                  second: "numeric",
-                }).format(new Date(session[2]))}
-              </td>
-              <td className="py-2 px-4 border-b">{session[3]}</td>
+    <div className="mt-6 px-2 sm:px-6">
+      <h1 className="text-2xl font-bold text-center text-blue-200 mb-6">
+        Active Sessions
+      </h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-300 rounded-md shadow-md">
+          <thead style={{ color: "#000000" }}>
+            <tr>
+              <th className="py-2 px-4 border-b text-center text-sm md:text-base">
+                Session ID
+              </th>
+              <th className="py-2 px-4 border-b text-center text-sm md:text-base">
+                Admin ID
+              </th>
+              <th className="py-2 px-4 border-b text-center text-sm md:text-base">
+                Start Time
+              </th>
+              <th className="py-2 px-4 border-b text-center text-sm md:text-base">
+                End Time
+              </th>
+              <th className="py-2 px-4 border-b text-center text-sm md:text-base">
+                Location
+              </th>
+              <th className="py-2 px-4 border-b text-center text-sm md:text-base"></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="flex justify-center pt-10">
-        {" "}
-        {/* Adds padding-top and centers the button */}
-        {/* <button
-          className="w-1/2 py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          onClick={toDashboard}
-        >
-          Dashboard
-        </button> */}
+          </thead>
+          <tbody style={{ color: "#000000" }}>
+            {sessions.map((session, index) => (
+              <tr key={index} className="hover:bg-blue-100 text-xs md:text-sm">
+                <td className="py-2 px-4 border-b text-center">{session[0]}</td>
+                <td className="py-2 px-4 border-b text-center">{session[3]}</td>
+                <td className="py-2 px-4 border-b text-center">
+                  {new Intl.DateTimeFormat("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                    second: "numeric",
+                  }).format(new Date(session[1]))}
+                </td>
+                <td className="py-2 px-4 border-b text-center">
+                  {new Intl.DateTimeFormat("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                    second: "numeric",
+                  }).format(new Date(session[2]))}
+                </td>
+                <td className="py-2 px-4 border-b text-center">
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${session[4]},${session[5]}`}
+                    target="_blank"
+                    className="text-blue-400 underline"
+                  >
+                    View
+                  </a>
+                </td>
+                <td className="py-2 px-4 border-b text-center">
+                  <button
+                    className="bg-blue-500 text-white px-2 py-1 md:px-4 md:py-2 rounded-lg active:bg-blue-700"
+                    onClick={() => handleJoinSession(session[0])}
+                  >
+                    Join
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

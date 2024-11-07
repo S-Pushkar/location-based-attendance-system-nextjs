@@ -3,15 +3,24 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+type AttendanceData = {
+  sessionId: string;
+  startTime: string;
+  endTime: string;
+  adminId: string;
+  latitude: number;
+  longitude: number;
+};
+
 export default function UserDashboardComponent() {
-  const [attendanceData, setAttendanceData] = useState<{ session: string; present: string }[]>([]);
+  const [attendanceData, setAttendanceData] = useState<AttendanceData[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     if (typeof window === "undefined" || !localStorage) {
       return;
     }
-    
+
     const token = localStorage.getItem("token");
     if (!token) {
       router.push("/user-login");
@@ -22,138 +31,95 @@ export default function UserDashboardComponent() {
       router.back();
       return;
     }
-    const fetchData = async () => {
+    async function fetchAttendedSessions() {
       try {
-        const response = await fetch("http://localhost:8000/check-attendance", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ tok: token }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-
-          const formattedData = Object.entries(data).map(([session, present]) => ({
-            session,
-            present: present ? "Yes" : "No",
-          }));
-
-          setAttendanceData(formattedData);
-        } else {
-          console.error("Failed to fetch attendance data.");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-
-	const sendLocation = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      
-      // Get user location
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-
-          // Check if current minute is divisible by 5
-          const now = new Date();
-          if (now.getMinutes() % 5 === 0) {
-            // Send data to the backend
-            await fetch("http://localhost:8000/current-location", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                tok: token,
-                latitude: latitude,
-                longitude: longitude,
-              }),
-            });
-            console.log("Location sent:", { latitude, longitude });
+        const response = await fetch(
+          "http://localhost:8000/get-attended-sessions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              tok: token,
+            }),
           }
-        },
-        (error) => {
-          console.error("Error getting location:", error);
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch attended sessions");
         }
-      );
-    } catch (error) {
-      console.error("Error in sendLocation:", error);
+        const data = await response.json();
+        const formattedData = data?.sessions.map((session: string) => ({
+          sessionId: session[0],
+          startTime: session[1],
+          endTime: session[2],
+          adminId: session[3],
+          latitude: parseFloat(session[4]),
+          longitude: parseFloat(session[5]),
+        }));
+        setAttendanceData(formattedData);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  };
-
-  useEffect(() => {
-    // Run `sendLocation` every minute
-	sendLocation()
-    const intervalId = setInterval(sendLocation, 60000);
-
-    return () => clearInterval(intervalId); // Cleanup on component unmount
+    fetchAttendedSessions();
   }, []);
-  
-  const showSessions = async () => {
-	console.log("sessions")
-	router.push("/user-active");
-	}
-	
-	const showMySessions = async () => {
-	console.log("My sessions")
-	router.push("/user-sessions");
-	}
-	
+
   return (
-    <div style={{ textAlign: "center", padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1 style={{ fontSize: "2rem", color: "#4A90E2", marginBottom: "20px" }}>USER DASHBOARD</h1>
-      <div style={{ display: "inline-block", textAlign: "center", width: "100%" }}>
-        <h2 style={{ fontSize: "1.5rem", color: "#fff", marginBottom: "15px" }}>User Attendance</h2>
-        <table style={{ margin: "0 auto", borderCollapse: "collapse", width: "80%", maxWidth: "600px" }}>
-          <thead>
-            <tr>
-              <th style={{ padding: "10px", borderBottom: "2px solid #ddd", color: "#666" }}>Session</th>
-              <th style={{ padding: "10px", borderBottom: "2px solid #ddd", color: "#666" }}>Present</th>
-            </tr>
-          </thead>
-          <tbody>
-            {attendanceData.map((entry, index) => (
-              <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f9f9f9" : "#ffffff" }}>
-                <td style={{ padding: "10px", borderBottom: "1px solid #ddd",color: "#000000" }}>{entry.session}</td>
-                <td
-                  style={{
-                    padding: "10px",
-                    borderBottom: "1px solid #ddd",
-                    color: entry.present === "Yes" ? "#2ECC71" : "#E74C3C",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {entry.present}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div>
+      <h1
+        style={{ fontSize: "2rem", color: "#4A90E2", marginBottom: "20px" }}
+        className="text-center"
+      >
+        USER DASHBOARD
+      </h1>
+      <div className="flex flex-row justify-start">
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg mx-8 my-4 active:bg-blue-700"
+          onClick={() => router.push("/user-active")}
+        >
+          Join Session
+        </button>
       </div>
-	  <div className="flex justify-center space-x-4 mt-6">
-  <button
-    className="w-1/2 py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-	onClick={showSessions}
-  >
-    Active Sessions
-  </button>
-
-  <button
-    className="w-1/2 py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-	onClick={showMySessions}
-  >
-    My Sessions
-  </button>
-</div>
-
+      <h2 className="text-center font-bold text-xl">Sessions Joined</h2>
+      {attendanceData.map((session, index) => (
+        <a
+          key={index}
+          href={`https://www.google.com/maps/search/?api=1&query=${session.latitude},${session.longitude}`}
+          target="_blank"
+        >
+          <div className="flex items-center justify-between p-4 mx-8 bg-slate-700 rounded-lg my-4 shadow-[4px_4px_4px_0px_rgb(0,0,0)]">
+            <div>
+              <h2 className="text-xl text-white">
+                Session ID: {session.sessionId}
+              </h2>
+              <p className="text-gray-400">Admin ID: {session.adminId}</p>
+              <p className="text-gray-400">
+                From:{" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                }).format(new Date(session.startTime))}
+              </p>
+              <p className="text-gray-400">
+                To:{" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                }).format(new Date(session.endTime))}
+              </p>
+            </div>
+          </div>
+        </a>
+      ))}
     </div>
   );
 }
