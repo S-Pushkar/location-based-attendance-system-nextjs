@@ -2,9 +2,9 @@ export default function Home() {
   return (
     <div
       style={{
-        backgroundImage: "url('/img.jpg')", // Adjusted to reference public folder
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        // backgroundImage: "url('/img.jpg')", // Adjusted to reference public folder
+        // backgroundSize: "cover",
+        // backgroundPosition: "center",
         padding: "10px",
         minHeight: "90vh",
         color: "#f5f5f5",
@@ -22,7 +22,7 @@ export default function Home() {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.6)", // Dark overlay with 60% opacity
+          // backgroundColor: "rgba(0, 0, 0, 0.6)", // Dark overlay with 60% opacity
           zIndex: 1,
         }}
       />
