@@ -43,6 +43,7 @@ export default function UserLoginComponent() {
         window.location.reload();
       }
     } catch (error) {
+      console.error(error);
       setError("An error occurred. Please try again.");
     }
   };

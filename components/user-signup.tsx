@@ -52,6 +52,7 @@ export default function UserSignupComponent() {
         window.location.reload();
       }
     } catch (error) {
+      console.error(error);
       setError("An error occurred. Please try again.");
     }
   };

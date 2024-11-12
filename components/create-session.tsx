@@ -74,6 +74,7 @@ export default function CreateSessionComponent() {
         setError("Failed to create session");
       }
     } catch (error) {
+      console.error(error);
       setError("An error occurred. Please try again.");
     }
   }

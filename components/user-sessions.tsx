@@ -33,18 +33,13 @@ export default function UserSessionsComponent() {
           setSessions(response.data.sessions);
         }
       } catch (error) {
-        console.error("Error fetching sessions:", error);
+        console.error(error);
         // Optionally, redirect or show an error message
       }
     };
 
     fetchSessions();
   }, []);
-
-  const toDashboard = async () => {
-    console.log("sessions");
-    router.push("/user-dashboard");
-  };
 
   return (
     <div className="overflow-x-auto">
