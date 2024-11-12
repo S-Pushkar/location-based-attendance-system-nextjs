@@ -21,7 +21,8 @@ export default function UserLoginComponent() {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/auth/login-attendee", {
+      const response = await fetch(
+        (process.env.API_ENDPOINT || "http://localhost:8000") + "/auth/login-attendee", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

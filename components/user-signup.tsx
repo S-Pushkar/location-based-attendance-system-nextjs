@@ -25,7 +25,7 @@ export default function UserSignupComponent() {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:8000/auth/register-attendee",
+        (process.env.API_ENDPOINT || "http://localhost:8000") + "/auth/register-attendee",
         {
           method: "POST",
           headers: {

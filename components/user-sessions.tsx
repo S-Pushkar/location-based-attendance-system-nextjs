@@ -24,7 +24,8 @@ export default function UserSessionsComponent() {
     }
     const fetchSessions = async () => {
       try {
-        const response = await axios.post("http://localhost:8000/my-sessions", {
+        const response = await axios.post(
+          (process.env.API_ENDPOINT || "http://localhost:8000") + "/my-sessions", {
           tok: localStorage.getItem("token"),
         });
 

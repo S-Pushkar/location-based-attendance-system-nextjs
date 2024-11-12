@@ -34,7 +34,7 @@ export default function UserDashboardComponent() {
     async function fetchAttendedSessions() {
       try {
         const response = await fetch(
-          "http://localhost:8000/get-attended-sessions",
+          (process.env.API_ENDPOINT || "http://localhost:8000") + "/get-attended-sessions",
           {
             method: "POST",
             headers: {

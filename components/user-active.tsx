@@ -26,7 +26,7 @@ export default function UserActiveComponent() {
     const fetchActiveSessions = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8000/active-sessions",
+          (process.env.API_ENDPOINT || "http://localhost:8000") + "/active-sessions",
           {
             tok: token,
           }

@@ -44,7 +44,7 @@ export default function ViewSessionAdminComponent() {
     async function fetchSession() {
       try {
         const response = await fetch(
-          "http://localhost:8000/get-session-attendees",
+          (process.env.API_ENDPOINT || "http://localhost:8000") + "/get-session-attendees",
           {
             method: "POST",
             headers: {
