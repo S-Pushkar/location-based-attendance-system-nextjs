@@ -27,8 +27,7 @@ export default function Navbar() {
   const router = useRouter();
   return (
     <div
-      className="p-8 flex flex-row justify-between bg-slate-700 mb-4"
-      style={{ zIndex: 10, position: "relative" }}
+      className="p-8 flex flex-row justify-between bg-slate-700 mb-4 sticky top-0 z-10"
     >
       <h1 className="md:text-4xl sm:text-xl text-blue-400">
         <Link href="/">Attendance System</Link>
