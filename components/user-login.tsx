@@ -22,7 +22,7 @@ export default function UserLoginComponent() {
     e.preventDefault();
     try {
       const response = await fetch(
-        (process.env.API_ENDPOINT || "http://localhost:8000") + "/auth/login-attendee", {
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/auth/login-attendee", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -26,7 +26,7 @@ export default function UserActiveComponent() {
     const fetchActiveSessions = async () => {
       try {
         const response = await axios.post(
-          (process.env.API_ENDPOINT || "http://localhost:8000") + "/active-sessions",
+          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/active-sessions",
           {
             tok: token,
           }
@@ -53,7 +53,8 @@ export default function UserActiveComponent() {
     const longitude = position.coords.longitude.toString();
 
     try {
-      const response = await fetch("http://localhost:8000/join-session", {
+      const response = await fetch(
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/join-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

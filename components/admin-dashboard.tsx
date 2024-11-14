@@ -23,7 +23,7 @@ export default function AdminDashboardComponent() {
     async function fetchSessions() {
       try {
         const response = await fetch(
-          (process.env.API_ENDPOINT || "http://localhost:8000") + "/get-sessions-created",
+          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/get-sessions-created",
           {
             method: "POST",
             headers: {

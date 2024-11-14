@@ -51,7 +51,7 @@ export default function CreateSessionComponent() {
       const formattedStartTime = startTime.replace("T", " ") + ":00";
       const formattedEndTime = endTime.replace("T", " ") + ":00";
       const response = await fetch(
-        (process.env.API_ENDPOINT || "http://localhost:8000") + "/create-session", {
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/create-session", {
         method: "POST",
         body: JSON.stringify({
           tok: token,
