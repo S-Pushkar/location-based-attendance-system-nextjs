@@ -21,7 +21,7 @@ export default function HomeComponent() {
           <h2 className="text-2xl font-semibold mb-4">Get Started</h2>
           <p className="text-gray-400">
             To start using the attendance system, please log in with your
-            credentials. Let's make attendance tracking easy, transparent, and
+            credentials. Let&apos;s make attendance tracking easy, transparent, and
             secure!
           </p>
         </section>
@@ -31,7 +31,7 @@ export default function HomeComponent() {
           <ul className="list-disc list-inside space-y-2 text-gray-400">
             <li>
               <strong>Real-Time Location Verification:</strong> Uses geolocation
-              data to confirm the user's presence at the required location
+              data to confirm the user&apos;s presence at the required location
               before logging attendance.
             </li>
             <li>
@@ -60,7 +60,7 @@ export default function HomeComponent() {
             </li>
             <li>
               <strong>Location Verification:</strong> The system captures the
-              user's current location through GPS and verifies it against the
+              user&apos;s current location through GPS and verifies it against the
               authorized location.
             </li>
             <li>
