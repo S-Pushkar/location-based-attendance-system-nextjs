@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -7,11 +8,8 @@ export default function AdminDashboardComponent() {
   const [sessions, setSessions] = useState<string[][]>([]);
   const router = useRouter();
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
+    const token = getCookie("token");
+    const role = getCookie("role");
     if (!token) {
       router.push("/admin-login");
       return;
@@ -23,7 +21,8 @@ export default function AdminDashboardComponent() {
     async function fetchSessions() {
       try {
         const response = await fetch(
-          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/get-sessions-created",
+          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+            "/get-sessions-created",
           {
             method: "POST",
             headers: {
@@ -38,7 +37,7 @@ export default function AdminDashboardComponent() {
           throw new Error("Failed to fetch sessions");
         }
         const data = await response.json();
-        setSessions(data['sessions']);
+        setSessions(data["sessions"]);
       } catch (error) {
         console.error(error);
       }

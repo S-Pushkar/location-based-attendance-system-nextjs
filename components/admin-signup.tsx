@@ -1,15 +1,13 @@
 "use client";
 
+import { getCookie, setCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AdminSignup() {
   const router = useRouter();
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (token) {
       router.push("/admin-dashboard");
     }
@@ -24,7 +22,8 @@ export default function AdminSignup() {
     e.preventDefault();
     try {
       const response = await fetch(
-        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/auth/register-admin",
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+          "/auth/register-admin",
         {
           method: "POST",
           headers: {
@@ -41,12 +40,25 @@ export default function AdminSignup() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setError(errorData.detail || "Signup failed");
+        if (errorData["error"]) {
+          setError(errorData["error"]);
+        }
+        return;
       } else {
         const data = await response.json();
-        localStorage.setItem("token", data.access_token as string); // Store JWT token
-        localStorage.setItem("role", "admin");
-        router.push("/admin-dashboard");
+        setCookie("token", data.token, {
+          sameSite: "strict",
+          secure: true,
+          path: "/",
+        });
+        setCookie("role", "admin", {
+          sameSite: "strict",
+          secure: true,
+          path: "/",
+        });
+        setTimeout(() => {
+          router.push("/admin-dashboard");
+        }, 500);
         window.location.reload();
       }
     } catch (error) {

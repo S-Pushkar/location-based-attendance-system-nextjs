@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -12,15 +13,12 @@ type attendee = {
 export default function ViewSessionAdminComponent() {
   const router = useRouter();
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (!token) {
       router.push("/admin-login");
       return;
     }
-    const role = localStorage.getItem("role");
+    const role = getCookie("role");
     if (role !== "admin") {
       router.back();
       return;
@@ -37,14 +35,12 @@ export default function ViewSessionAdminComponent() {
     attendees?: attendee[];
   }>({});
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     async function fetchSession() {
       try {
         const response = await fetch(
-          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/get-session-attendees",
+          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+            "/get-session-attendees",
           {
             method: "POST",
             headers: {
@@ -79,7 +75,6 @@ export default function ViewSessionAdminComponent() {
           timeZone: "UTC",
         }).format(new Date(data.endtime));
         setSession(data);
-        console.log(data);
       } catch (error) {
         console.error(error);
       }

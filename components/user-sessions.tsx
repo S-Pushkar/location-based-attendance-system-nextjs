@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -9,15 +10,12 @@ export default function UserSessionsComponent() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (!token) {
       router.push("/user-login");
       return;
     }
-    const role = localStorage.getItem("role");
+    const role = getCookie("role");
     if (role !== "attendee") {
       router.back();
       return;
@@ -25,9 +23,12 @@ export default function UserSessionsComponent() {
     const fetchSessions = async () => {
       try {
         const response = await axios.post(
-          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/my-sessions", {
-          tok: localStorage.getItem("token"),
-        });
+          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+            "/my-sessions",
+          {
+            tok: token,
+          }
+        );
 
         // Assuming the response structure is correct
         if (response.data && response.data.sessions) {
@@ -50,23 +51,13 @@ export default function UserSessionsComponent() {
         </h1>
       </div>
 
-      <table
-        className="min-w-full bg-white border border-gray-300 rounded-md shadow-md"
-      >
+      <table className="min-w-full bg-white border border-gray-300 rounded-md shadow-md">
         <thead style={{ color: "#000000" }}>
           <tr>
-            <th className="py-2 px-4 border-b text-left">
-              Session ID
-            </th>
-            <th className="py-2 px-4 border-b text-left">
-              Start Time
-            </th>
-            <th className="py-2 px-4 border-b text-left">
-              End Time
-            </th>
-            <th className="py-2 px-4 border-b text-left">
-              Admin ID
-            </th>
+            <th className="py-2 px-4 border-b text-left">Session ID</th>
+            <th className="py-2 px-4 border-b text-left">Start Time</th>
+            <th className="py-2 px-4 border-b text-left">End Time</th>
+            <th className="py-2 px-4 border-b text-left">Admin ID</th>
           </tr>
         </thead>
         <tbody style={{ color: "#000000" }}>

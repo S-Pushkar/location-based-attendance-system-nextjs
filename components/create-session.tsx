@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -7,15 +8,12 @@ export default function CreateSessionComponent() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (!token) {
       router.push("/admin-login");
       return;
     }
-    const role = localStorage.getItem("role");
+    const role = getCookie("role");
     if (role !== "admin") {
       router.back();
       return;
@@ -32,7 +30,7 @@ export default function CreateSessionComponent() {
 
   async function handleCreateSession(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (!token) {
       router.push("/admin-login");
       return;
@@ -51,24 +49,27 @@ export default function CreateSessionComponent() {
       const formattedStartTime = startTime.replace("T", " ") + ":00";
       const formattedEndTime = endTime.replace("T", " ") + ":00";
       const response = await fetch(
-        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/create-session", {
-        method: "POST",
-        body: JSON.stringify({
-          tok: token,
-          start_time: formattedStartTime,
-          end_time: formattedEndTime,
-          locs: [
-            {
-              address: address,
-              longitude: parseFloat(longitude),
-              latitude: parseFloat(latitude),
-            },
-          ],
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+          "/create-session",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            tok: token,
+            start_time: formattedStartTime,
+            end_time: formattedEndTime,
+            locs: [
+              {
+                address: address,
+                longitude: parseFloat(longitude),
+                latitude: parseFloat(latitude),
+              },
+            ],
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.status === 200) {
         router.push("/admin-dashboard");
       } else {

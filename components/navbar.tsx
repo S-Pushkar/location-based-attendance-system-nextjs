@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie, deleteCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,11 +11,8 @@ export default function Navbar() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isUser, setIsUser] = useState(false);
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
+    const token = getCookie("token");
+    const role = getCookie("role");
     if (token) {
       setIsSignedIn(true);
     }
@@ -26,9 +24,7 @@ export default function Navbar() {
   }, []);
   const router = useRouter();
   return (
-    <div
-      className="p-8 flex flex-row justify-between bg-slate-700 mb-4 sticky top-0 z-10"
-    >
+    <div className="p-8 flex flex-row justify-between bg-slate-700 mb-4 sticky top-0 z-10">
       <h1 className="md:text-4xl sm:text-xl text-blue-400">
         <Link href="/">Attendance System</Link>
       </h1>
@@ -82,8 +78,8 @@ export default function Navbar() {
                 <li
                   className="px-4 py-2 text-left hover:bg-gray-100 cursor-pointer rounded-lg text-red-500"
                   onClick={() => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("role");
+                    deleteCookie("token");
+                    deleteCookie("role");
                     setIsSignedIn(false);
                     router.push("/");
                   }}

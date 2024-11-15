@@ -1,14 +1,13 @@
 "use client";
 
+import { getCookie, setCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
 export default function AdminLogin() {
   const router = useRouter();
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (token) {
       router.push("/admin-dashboard");
     }
@@ -21,25 +20,38 @@ export default function AdminLogin() {
     e.preventDefault();
     try {
       const response = await fetch(
-        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/auth/login-admin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email.trim(),
-          password: password.trim(),
-        }),
-      });
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+          "/auth/login-admin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email.trim(),
+            password: password.trim(),
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
-        setError(errorData.detail || "Login failed");
+        setError(errorData["error"] || "Login failed");
       } else {
         const data = await response.json();
-        localStorage.setItem("token", data.access_token as string); // Store JWT token
-        localStorage.setItem("role", "admin");
-        router.push("/admin-dashboard");
+        setCookie("token", data.access_token as string, {
+          secure: true,
+          sameSite: "strict",
+          path: "/",
+        });
+        setCookie("role", "admin", {
+          secure: true,
+          sameSite: "strict",
+          path: "/",
+        });
+        setTimeout(() => {
+          router.push("/admin-dashboard");
+        }, 500);
         window.location.reload();
       }
     } catch (error) {

@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -17,16 +18,12 @@ export default function UserDashboardComponent() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (!token) {
       router.push("/user-login");
       return;
     }
-    const role = localStorage.getItem("role");
+    const role = getCookie("role");
     if (role !== "attendee") {
       router.back();
       return;
@@ -34,7 +31,8 @@ export default function UserDashboardComponent() {
     async function fetchAttendedSessions() {
       try {
         const response = await fetch(
-          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/get-attended-sessions",
+          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+            "/get-attended-sessions",
           {
             method: "POST",
             headers: {

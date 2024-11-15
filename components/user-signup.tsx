@@ -1,15 +1,13 @@
 "use client";
 
+import { getCookie, setCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function UserSignupComponent() {
   const router = useRouter();
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (token) {
       router.push("/user-dashboard");
     }
@@ -25,7 +23,8 @@ export default function UserSignupComponent() {
     e.preventDefault();
     try {
       const response = await fetch(
-        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/auth/register-attendee",
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+          "/auth/register-attendee",
         {
           method: "POST",
           headers: {
@@ -43,12 +42,22 @@ export default function UserSignupComponent() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setError(errorData.detail || "Signup failed");
+        setError(errorData["error"] || "Signup failed");
       } else {
         const data = await response.json();
-        localStorage.setItem("token", data.access_token as string); // Store JWT token
-        localStorage.setItem("role", "attendee");
-        router.push("/user-dashboard"); // Navigate to dashboard or another page
+        setCookie("token", data.access_token as string, {
+          sameSite: "strict",
+          secure: true,
+          path: "/",
+        });
+        setCookie("role", "attendee", {
+          sameSite: "strict",
+          secure: true,
+          path: "/",
+        });
+        setTimeout(() => {
+          router.push("/user-dashboard");
+        }, 500);
         window.location.reload();
       }
     } catch (error) {

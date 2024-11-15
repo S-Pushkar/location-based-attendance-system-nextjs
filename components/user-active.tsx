@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -10,15 +11,12 @@ export default function UserActiveComponent() {
 
   // Fetch active sessions on page load
   useEffect(() => {
-    if (typeof window === "undefined" || !localStorage) {
-      return;
-    }
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     if (!token) {
       router.push("/user-login");
       return;
     }
-    const role = localStorage.getItem("role");
+    const role = getCookie("role");
     if (role !== "attendee") {
       router.back();
       return;
@@ -26,7 +24,8 @@ export default function UserActiveComponent() {
     const fetchActiveSessions = async () => {
       try {
         const response = await axios.post(
-          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/active-sessions",
+          (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+            "/active-sessions",
           {
             tok: token,
           }
@@ -54,18 +53,21 @@ export default function UserActiveComponent() {
 
     try {
       const response = await fetch(
-        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/join-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          tok: localStorage.getItem("token"),
-          sessionid: sessionId,
-          latitude: parseFloat(latitude),
-          longitude: parseFloat(longitude),
-        }),
-      });
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") +
+          "/join-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tok: getCookie("token"),
+            sessionid: sessionId,
+            latitude: parseFloat(latitude),
+            longitude: parseFloat(longitude),
+          }),
+        }
+      );
       if (response.status === 400) {
         alert("You are not located within the session area");
         return;
