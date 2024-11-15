@@ -24,8 +24,8 @@ export default function Navbar() {
   }, []);
   const router = useRouter();
   return (
-    <div className="p-8 flex flex-row justify-between bg-slate-700 mb-4 sticky top-0 z-10">
-      <h1 className="md:text-4xl sm:text-xl text-blue-400">
+    <div className="p-8 flex flex-row justify-between bg-slate-600 mb-4 sticky top-0 z-10">
+      <h1 className="md:text-4xl sm:text-xl text-blue-300">
         <Link href="/">Attendance System</Link>
       </h1>
       <button
