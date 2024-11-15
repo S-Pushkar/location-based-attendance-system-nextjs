@@ -103,6 +103,7 @@ export default function UserDashboardComponent() {
                   hour: "numeric",
                   minute: "numeric",
                   second: "numeric",
+                  timeZone: "UTC",
                 }).format(new Date(session.startTime))}
               </p>
               <p className="text-gray-400">
@@ -114,6 +115,7 @@ export default function UserDashboardComponent() {
                   hour: "numeric",
                   minute: "numeric",
                   second: "numeric",
+                  timeZone: "UTC",
                 }).format(new Date(session.endTime))}
               </p>
             </div>

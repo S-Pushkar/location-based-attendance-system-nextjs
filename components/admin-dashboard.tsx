@@ -38,7 +38,7 @@ export default function AdminDashboardComponent() {
           throw new Error("Failed to fetch sessions");
         }
         const data = await response.json();
-        setSessions(data);
+        setSessions(data['sessions']);
       } catch (error) {
         console.error(error);
       }
@@ -81,6 +81,7 @@ export default function AdminDashboardComponent() {
                 hour: "numeric",
                 minute: "numeric",
                 second: "numeric",
+                timeZone: "UTC",
               }).format(new Date(session[1]))}
             </p>
             <p className="text-gray-400">
@@ -92,6 +93,7 @@ export default function AdminDashboardComponent() {
                 hour: "numeric",
                 minute: "numeric",
                 second: "numeric",
+                timeZone: "UTC",
               }).format(new Date(session[2]))}
             </p>
           </div>

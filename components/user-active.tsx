@@ -120,6 +120,7 @@ export default function UserActiveComponent() {
                     hour: "numeric",
                     minute: "numeric",
                     second: "numeric",
+                    timeZone: "UTC",
                   }).format(new Date(session[1]))}
                 </td>
                 <td className="py-2 px-4 border-b text-center">
@@ -130,6 +131,7 @@ export default function UserActiveComponent() {
                     hour: "numeric",
                     minute: "numeric",
                     second: "numeric",
+                    timeZone: "UTC",
                   }).format(new Date(session[2]))}
                 </td>
                 <td className="py-2 px-4 border-b text-center">

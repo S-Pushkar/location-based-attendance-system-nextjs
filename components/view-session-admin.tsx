@@ -52,7 +52,7 @@ export default function ViewSessionAdminComponent() {
             },
             body: JSON.stringify({
               tok: token,
-              sessionid: sessionId,
+              sessionid: parseInt(sessionId),
             }),
           }
         );
@@ -67,6 +67,7 @@ export default function ViewSessionAdminComponent() {
           hour: "numeric",
           minute: "numeric",
           second: "numeric",
+          timeZone: "UTC",
         }).format(new Date(data.starttime));
         data.endtime = new Intl.DateTimeFormat("en-US", {
           year: "numeric",
@@ -75,6 +76,7 @@ export default function ViewSessionAdminComponent() {
           hour: "numeric",
           minute: "numeric",
           second: "numeric",
+          timeZone: "UTC",
         }).format(new Date(data.endtime));
         setSession(data);
         console.log(data);
