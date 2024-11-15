@@ -24,7 +24,7 @@ export default function AdminSignup() {
     e.preventDefault();
     try {
       const response = await fetch(
-        (process.env.API_ENDPOINT || "http://localhost:8000") + "/auth/register-admin",
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/auth/register-admin",
         {
           method: "POST",
           headers: {

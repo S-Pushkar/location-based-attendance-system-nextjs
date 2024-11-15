@@ -25,7 +25,7 @@ export default function UserSignupComponent() {
     e.preventDefault();
     try {
       const response = await fetch(
-        (process.env.API_ENDPOINT || "http://localhost:8000") + "/auth/register-attendee",
+        (process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000") + "/auth/register-attendee",
         {
           method: "POST",
           headers: {
